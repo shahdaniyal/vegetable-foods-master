@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/signup.css">
+</head>
+
+<body>
+    <div class="signup-container">
+        <div class="signup-form">
+            <h2>Create an Account</h2>
+            <form onsubmit="return validatePasswords();">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter your phone number with country code" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Passwords Don't Match</h2>
+            <p>The passwords you entered do not match. Please make sure to enter the same password in both fields.</p>
+            <button onclick="closePopup()" class="btn btn-primary">OK</button>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        
+        $(document).ready(function () {
+            $("#email").on("blur", function () {
+                var email = $(this).val();
+                
+                // Check if the email is already registered
+                if (localStorage.getItem(email) !== null) {
+                    alert("This email is already registered. Please use a different email.");
+                    $(this).val(""); // Clear the input field
+                }
+            });
+    
+            function saveUser(email, password) {
+                // Save user information to localStorage
+                localStorage.setItem(email, password);
+            }
+    
+            function validatePasswords() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirm-password").value;
+
+            if (password !== confirmPassword) {
+                showPopup();
+                return false; // Prevent the form from submitting through regular POST request
+            }
+
+            return true; // Allow form submission if passwords match
+        }
+        
+        function redirectToIndex() {
+            // Redirect to "index.html"
+            window.location.href = "index.html";
+
+            // Prevent the form from submitting
+            return false;
+        }
+
+        function showPopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+        }
+
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+        }
+            $("form").on("submit", function (e) {
+                e.preventDefault();
+                if (validatePasswords()) {
+                    var email = $("#email").val();
+                    var password = $("#password").val();
+                    saveUser(email, password);
+                    redirectToIndex();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

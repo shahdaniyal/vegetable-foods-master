@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Logout</title>
+</head>
+<body>
+    <script>
+        // Clear the session (Assuming you set the isLoggedIn session variable)
+        var isLoggedIn = false; // Set it to false after logging out
+        sessionStorage.setItem('isLoggedIn', isLoggedIn);
+        
+        // Redirect the user to the login/signup page
+        window.location.href = 'index.html'; // Replace with the actual URL of your login/signup page
+    </script>
+</body>
+</html>
